@@ -249,6 +249,30 @@ details.spoiler .spoiler-body { padding: 4px 22px 22px; }
 .case-head .zh { color: var(--faint); font-family: var(--font-read); }
 .case-head .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
 
+/* language switcher */
+.lang-switch { display: inline-flex; gap: 0; margin-top: 18px; border: 1px solid var(--border-2); border-radius: 999px; overflow: hidden; background: var(--surface); }
+.lang-switch button {
+  appearance: none; border: 0; background: transparent; cursor: pointer;
+  color: var(--muted); font-family: var(--font-ui); font-size: .88rem; font-weight: 600;
+  padding: 8px 18px; letter-spacing: .02em; transition: .15s; border-right: 1px solid var(--border);
+}
+.lang-switch button:last-child { border-right: 0; }
+.lang-switch button:hover { color: var(--text); }
+.lang-switch button[aria-pressed="true"] { background: var(--accent); color: #1a1407; }
+
+/* language panes: only the active one shows */
+.lang-pane { display: none; }
+.lang-pane.active { display: block; }
+/* CJK reading fonts for Chinese / Japanese case files */
+.lang-pane[data-lang="zh"] {
+  font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", serif;
+  line-height: 1.95;
+}
+.lang-pane[data-lang="ja"] {
+  font-family: "Noto Serif JP", "Source Han Serif JP", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif CJK JP", serif;
+  line-height: 1.95;
+}
+
 /* parchment dossier */
 .dossier {
   background: var(--parchment);

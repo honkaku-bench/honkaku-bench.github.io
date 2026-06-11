@@ -66,7 +66,7 @@ def score_badge(pid):
             f'Best AI: {f:.0f}%</span>')
 
 
-def puzzle_page(meta, body):
+def puzzle_page(meta, bodies):
     pid = meta["id"]
     email = EMAIL
     site = SITE_URL
@@ -89,11 +89,24 @@ def puzzle_page(meta, body):
   <h1>{meta['en_title']}</h1>
   <div class="zh">{meta.get('zh_title','')}</div>
   <div class="tags">{tags}</div>
+  <div class="lang-switch" role="group" aria-label="Choose language">
+    <button type="button" data-lang="en" aria-pressed="true">English</button>
+    <button type="button" data-lang="ja" aria-pressed="false">&#26085;&#26412;&#35486;</button>
+    <button type="button" data-lang="zh" aria-pressed="false">&#20013;&#25991;</button>
+  </div>
 </div>
 
 <div class="wrap narrow">
   <article class="dossier">
-{body}
+    <div class="lang-pane active" data-lang="en">
+{bodies['en']}
+    </div>
+    <div class="lang-pane" data-lang="ja" lang="ja">
+{bodies['ja']}
+    </div>
+    <div class="lang-pane" data-lang="zh" lang="zh-Hans">
+{bodies['zh']}
+    </div>
   </article>
 </div>
 
@@ -145,6 +158,7 @@ def puzzle_page(meta, body):
 </div>
 </main>
 {FOOT.format(home="", email=email)}
+<script src="assets/js/puzzle.js"></script>
 </body>
 </html>"""
 
@@ -201,9 +215,13 @@ def main():
     metas = []
     for pid in PUZZLES:
         meta = json.loads((SRC / f"{pid}.meta.json").read_text(encoding="utf-8"))
-        body = (SRC / f"{pid}.html").read_text(encoding="utf-8")
+        bodies = {
+            "en": (SRC / f"{pid}.html").read_text(encoding="utf-8"),
+            "zh": (SRC / f"{pid}.zh.html").read_text(encoding="utf-8"),
+            "ja": (SRC / f"{pid}.ja.html").read_text(encoding="utf-8"),
+        }
         metas.append(meta)
-        page = puzzle_page(meta, body)
+        page = puzzle_page(meta, bodies)
         (ROOT / f"puzzle-{pid}.html").write_text(page, encoding="utf-8")
         print(f"wrote puzzle-{pid}.html  ({meta['en_title']})")
     (ROOT / "puzzles.html").write_text(puzzles_index(metas), encoding="utf-8")
