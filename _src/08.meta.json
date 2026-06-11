@@ -1,0 +1,9 @@
+{
+  "id": "08",
+  "en_title": "Not (Random) Ball-Drawing",
+  "zh_title": "并非随机抽球",
+  "teaser": "A 'pure luck' ball-drawing relay, a half-glimpsed scoreboard, and a color-blind teammate hide a guaranteed-win strategy.",
+  "tags": ["Probability", "Combinatorics", "Logic", "Observation"],
+  "difficulty": "Fiendish",
+  "challenge_prompt": "No one lies; A-Yu drew in the cyclic order color A, B, C but, being red-green color blind, could not guarantee that over n rounds any one color appeared no more than ⌈n/3⌉ times. Under that assumption: (1) Could the first half have been 4 rounds, and why? (2) Can the balls' point values be equal, negative, or zero, and why? (3) Does the referee's single wiggled finger really represent 11, and if not what 'ten-something' is it? (4) What is the winning strategy that 'I' devised?"
+}

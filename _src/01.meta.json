@@ -1,0 +1,9 @@
+{
+  "id": "01",
+  "en_title": "The Whirlpool House Affair",
+  "zh_title": "漩涡馆事件",
+  "teaser": "A revolving octagonal cult temple, a beheaded founder, a vanished child, and a fire that always starts in the same room.",
+  "tags": ["Locked Room", "Impossible Crime", "Spatial", "Rotating Architecture"],
+  "difficulty": "Brutal",
+  "challenge_prompt": "Determine whether the inner door's openings follow a hidden rule and explain the principle; reconstruct how the Founder and 'Andrew' each died; and account for the fire in 'Stephen's' room, why the door could not be opened, and why 'John' was found inside it."
+}

@@ -1,0 +1,9 @@
+{
+  "id": "02",
+  "en_title": "The Geometry Inn",
+  "zh_title": "几何旅店",
+  "teaser": "Six students draw keys to rooms shaped as regular polygons in an abandoned haunted inn; one never comes back out alive.",
+  "tags": ["Locked Room", "Spatial", "Logic", "Poison"],
+  "difficulty": "Fiendish",
+  "challenge_prompt": "Deduce who the murderer is, lay out the murderer's complete logical chain of action, and explain how the murderer determined the location of the target room."
+}

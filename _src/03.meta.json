@@ -1,0 +1,9 @@
+{
+  "id": "03",
+  "en_title": "The Tale of the Aoandon",
+  "zh_title": "青行灯物语",
+  "teaser": "At a hundred-candle ghost-story night, a collector confesses to an old murder — then is found slain by dawn.",
+  "tags": ["closed-circle", "alibi", "whodunit", "edo-period", "ghost-story-framing", "logic-chain", "epistemic-reasoning"],
+  "difficulty": "Fiendish",
+  "challenge_prompt": "Determine: (1) why the murderer smashed the water vat behind the shop; (2) whether Ofuji reached the shop before or after the hyakumonogatari ended, and if after, why she nonetheless saw the tatami-room candlelight slowly fade out; (3) which persons could have needed to smash the vat, with the complete chain of logic; and (4) the identity of the murderer, proving why each of the other guests is not the killer. Reason from the differing knowledge each person possessed; ignore the Later Queen Problem."
+}

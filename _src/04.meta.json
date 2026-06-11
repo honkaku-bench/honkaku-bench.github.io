@@ -1,0 +1,9 @@
+{
+  "id": "04",
+  "en_title": "The Magic Door Murders",
+  "zh_title": "魔法之门杀人事件",
+  "teaser": "A priest is found stabbed in a sealed mine reachable only through paired teleporting doors that work by day.",
+  "tags": ["locked-room", "impossible-crime", "fantasy-rules", "alibi", "fair-play"],
+  "difficulty": "Fiendish",
+  "challenge_prompt": "All the clues have now been given. The murderer is confined to among Bill, Arnal, and Jizhoue, and everyone else's words may be trusted. There is one more pair of Magic Doors on the island at an unknown location, and no others beyond those named. Each Magic Door has one magic side (passing through it teleports to the paired door) and one non-magic side (merely passing through the frame); both doors of a pair must operate simultaneously, and the failure of either causes both to go out. Answer: (1) the identity of the murderer and the method of the crime, with reasons (12 points); (2) the truth behind 'The Tale of the Heroes Who Battled the Dragon' (8 points)."
+}
