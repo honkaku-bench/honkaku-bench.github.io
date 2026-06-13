@@ -101,9 +101,7 @@
     fadeOut = fadeOut < 0 ? 0 : fadeOut > 1 ? 1 : fadeOut;
     var alpha = 0.18 * quickIn * fadeOut;
 
-    // Thick when close, thin when far
-    var lw = 0.5 + (1 - z / Z_FAR) * 6.5;
-    lw = lw < 0.5 ? 0.5 : lw;
+    var lw = 0.27;  // 0.2pt (1pt ≈ 1.333px)
 
     ctx.beginPath();
     ctx.moveTo(p0x, p0y);

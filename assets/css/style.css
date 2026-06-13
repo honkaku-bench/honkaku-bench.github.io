@@ -600,7 +600,7 @@ footer a:hover { color: var(--accent); }
 /* ---------- Envelope intro overlay ---------- */
 .env-overlay {
   position: fixed; inset: 0; z-index: 9999;
-  background: rgba(2,3,4,0.88);
+  background: #020304;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer;
   transition: opacity 0.9s ease, visibility 0.9s ease;
@@ -608,105 +608,116 @@ footer a:hover { color: var(--accent); }
 .env-overlay.gone { opacity: 0; visibility: hidden; pointer-events: none; }
 
 .env-inner {
-  display: flex; flex-direction: column; align-items: center; gap: 28px;
+  display: flex; flex-direction: column; align-items: center; gap: 36px;
   text-align: center; padding: 24px;
 }
 
-/* Outer box — perspective container for 3D flap */
-.env-box {
+/*
+  Scene: a 380×320px stage.
+  Top 100px = card landing zone (above envelope).
+  Bottom 220px = envelope box.
+  Card starts translated DOWN into the envelope, rises UP on open.
+  Card is a sibling of env-box — no z-index conflict with the flap.
+*/
+.env-scene {
   position: relative;
-  width: 320px; height: 200px;
-  perspective: 900px;
-  perspective-origin: 50% 0%;
+  width: 380px;
+  height: 320px;
 }
 
-/* Envelope body — line art only, no fill */
+/* Letter card — outside the envelope box, rises above it on open */
+.env-card {
+  position: absolute;
+  top: 0; left: 40px; right: 40px;   /* 300px wide, sits above envelope */
+  height: 100px;
+  z-index: 2;                          /* above envelope box */
+  background: rgba(6,7,12,0.97);
+  border: 1px solid rgba(200,162,52,0.20);
+  padding: 16px 20px;
+  display: flex; flex-direction: column; justify-content: center; gap: 8px;
+  opacity: 0;
+  transform: translateY(142px);        /* starts inside envelope area */
+  transition:
+    transform 0.92s cubic-bezier(0.22, 1, 0.36, 1) 0.65s,
+    opacity   0.50s ease               0.60s;
+  pointer-events: none;
+}
+.env-scene.opening .env-card {
+  transform: translateY(0);
+  opacity: 1;
+}
+.env-card-stamp {
+  font-size: 0.56rem; letter-spacing: 0.30em; text-transform: uppercase;
+  color: rgba(200,162,52,0.48); font-weight: 100;
+}
+.env-card-rule { height: 1px; background: rgba(200,162,52,0.16); }
+.env-card-text {
+  font-size: 1.06rem; font-weight: 100; letter-spacing: 0.04em;
+  color: rgba(219,214,204,0.92); margin: 0;
+}
+.env-card-sub {
+  font-size: 0.73rem; font-weight: 100; letter-spacing: 0.08em;
+  color: rgba(138,144,153,0.58); margin: 0;
+}
+
+/* Envelope box — absolute, fills the bottom 220px of the scene */
+.env-box {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 220px;
+  z-index: 1;
+}
+
+/* Body SVG — lines only, transparent fill */
 .env-svg {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
-  stroke: rgba(200,162,52,0.40);
+  stroke: rgba(200,162,52,0.38);
   stroke-width: 1;
   fill: none;
 }
 
-/* Flap — dark-filled triangle that rotates open */
+/* Flap — dark triangle that rotates open around its top edge */
 .env-flap {
-  position: absolute; top: 0; left: 0; right: 0; height: 122px;
+  position: absolute; top: 0; left: 0; right: 0; height: 134px;
   transform-origin: center top;
-  transform-style: preserve-3d;
-  transition: transform 0.72s cubic-bezier(0.4, 0, 0.2, 1) 0.08s;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1) 0.10s,
+              opacity  0.28s ease                           0.38s;
   z-index: 3;
 }
-.env-flap svg {
-  width: 100%; height: 100%;
-  stroke: rgba(200,162,52,0.50);
-  stroke-width: 1;
-  fill: rgba(3,4,6,0.97);
+.env-flap svg { display: block; width: 100%; height: 100%; }
+.env-scene.opening .env-flap {
+  transform: perspective(700px) rotateX(-90deg);
+  opacity: 0;
 }
-.env-box.opening .env-flap { transform: rotateX(-185deg); }
 
-/* Seal — line-based circle + inner ring */
+/* Seal — two concentric line circles with HB monogram */
 .env-seal {
   position: absolute;
-  top: 78px; left: 50%; transform: translateX(-50%);
-  width: 48px; height: 48px; z-index: 4;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  top: 90px; left: 50%;
+  transform: translateX(-50%);
+  width: 52px; height: 52px; z-index: 4;
+  transition: opacity 0.22s ease, transform 0.22s ease;
 }
-.env-seal svg { width: 100%; height: 100%; overflow: visible; }
-.env-seal circle { stroke: rgba(176,53,48,0.72); stroke-width: 1; fill: rgba(3,4,6,0.90); }
-.env-seal text {
-  fill: rgba(200,162,52,0.80);
-  font-family: var(--font-ui); font-weight: 100;
-  font-size: 9px; letter-spacing: 1px;
-}
-.env-box.opening .env-seal { opacity: 0; transform: translateX(-50%) scale(0.5); }
-
-/* Letter card — rises from the envelope on open */
-.env-card {
-  position: absolute;
-  left: 28px; right: 28px; top: 60px;
-  height: 110px;
-  z-index: 2;
-  border: 1px solid rgba(200,162,52,0.22);
-  padding: 16px 18px;
-  display: flex; flex-direction: column; justify-content: center; gap: 7px;
+.env-seal svg { display: block; width: 100%; height: 100%; }
+.env-scene.opening .env-seal {
   opacity: 0;
-  transform: translateY(0);
-  transition:
-    transform 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.72s,
-    opacity   0.45s ease 0.68s;
-  pointer-events: none;
-  background: rgba(6,7,12,0.96);
-}
-.env-box.opening .env-card {
-  transform: translateY(-158px);
-  opacity: 1;
-}
-.env-card-stamp {
-  font-size: 0.58rem; letter-spacing: 0.32em; text-transform: uppercase;
-  color: rgba(200,162,52,0.50); font-weight: 100;
-}
-.env-card-rule { height: 1px; background: rgba(200,162,52,0.18); }
-.env-card-text {
-  font-size: 1.08rem; font-weight: 100; letter-spacing: 0.04em;
-  color: rgba(219,214,204,0.92); margin: 0;
-}
-.env-card-sub {
-  font-size: 0.75rem; font-weight: 100; letter-spacing: 0.08em;
-  color: rgba(138,144,153,0.65); margin: 0;
+  transform: translateX(-50%) scale(0.38);
 }
 
-/* Hint below envelope */
+/* Hint */
 .env-hint {
-  font-size: .68rem; letter-spacing: .28em; text-transform: uppercase;
-  color: rgba(82,88,95,0.75); margin: 0; font-weight: 100;
-  animation: env-blink 2.2s ease-in-out infinite;
+  font-size: 0.64rem; letter-spacing: 0.30em; text-transform: uppercase;
+  color: rgba(82,88,95,0.68); margin: 0; font-weight: 100;
+  animation: env-blink 2.4s ease-in-out infinite;
   transition: opacity 0.3s ease;
 }
-.env-overlay.opening-started .env-hint { opacity: 0; }
+.env-overlay.opening-started .env-hint { opacity: 0; animation: none; }
 @keyframes env-blink {
-  0%, 100% { opacity: .28; }
-  50% { opacity: .80; }
+  0%, 100% { opacity: 0.22; }
+  50%       { opacity: 0.78; }
 }
 
 /* ---------- thanks page ---------- */
@@ -871,21 +882,80 @@ footer a:hover { color: var(--accent); }
 
 @media (max-width: 860px) { .toc { display: none; } }
 
-/* ---------- Mobile chapter bar ---------- */
+/* ---------- Mobile chapter bar (activated when body.has-chapbar) ---------- */
 .mobile-chapbar,
 .mobile-chapdrawer { display: none; }
 
-/* ---------- responsive ---------- */
-@media (max-width: 760px) {
-  .quote-pair { grid-template-columns: 1fr; }
-  .form-row { grid-template-columns: 1fr; }
-  .nav-links { gap: 14px; }
-  .nav-links a:not(.cta) { display: none; }
-  .hero { padding: 60px 0 40px; }
-  .dossier { padding: 32px 22px; }
+/* ============================================================
+   RESPONSIVE
+   1024 tablet · 760 phone · 480 small phone
+   ============================================================ */
 
-  /* push page content above the fixed bar */
-  body { padding-bottom: 56px; }
+@media (max-width: 1024px) {
+  section { padding: 52px 0; }
+  .snap-card { border-radius: 14px; }
+  .puzzle-grid { grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 18px; }
+  .stats { grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); }
+}
+
+@media (max-width: 760px) {
+  /* ---- Base ---- */
+  .wrap { padding: 0 18px; }
+  section { padding: 38px 0; }
+
+  /* ---- Nav ---- */
+  .nav-links { gap: 10px; }
+  .nav-links a:not(.cta) { display: none; }
+
+  /* ---- Hero ---- */
+  .hero { padding: 40px 0 32px; min-height: unset; }
+  .hero .sub { font-size: .88rem; margin-bottom: 22px; }
+  .btn { padding: 11px 20px; font-size: .94rem; }
+
+  /* ---- Stats ---- */
+  .stat .num { font-size: 2.1rem; }
+
+  /* ---- Leaderboard ---- */
+  table.board thead th,
+  table.board td { padding: 10px 10px; font-size: .88rem; }
+  .scorebar { min-width: 100px; }
+  .scorebar .val { width: 38px; }
+
+  /* ---- Case studies ---- */
+  .quote-pair { grid-template-columns: 1fr; }
+  .case { padding: 20px 18px; }
+  .scoreline { gap: 10px; flex-wrap: wrap; }
+  .scoreline .chip { padding: 8px 12px; font-size: .88rem; }
+
+  /* ---- Puzzle grid ---- */
+  .puzzle-grid { grid-template-columns: 1fr; gap: 14px; }
+
+  /* ---- Case page header ---- */
+  .case-head { padding: 36px 0 14px; }
+  .lang-switch button { padding: 7px 14px; font-size: .84rem; }
+
+  /* ---- Dossier ---- */
+  .dossier { padding: 28px 18px; font-size: 1.02rem; }
+  .dossier::before { display: none; }
+
+  /* ---- Chapter nav: replaced by mobile bar on puzzle pages ---- */
+  .chapter-nav { display: none; }
+
+  /* ---- Cover ---- */
+  .cover-page { padding: 32px 0 22px; min-height: unset; }
+  .cover-title { font-size: clamp(1.4rem, 6vw, 2rem) !important; }
+
+  /* ---- Solve form ---- */
+  .form-row { grid-template-columns: 1fr; }
+  .solve { margin: 28px 0 18px; }
+  .solve-card { padding: 22px 18px; }
+
+  /* ---- Footer ---- */
+  footer { padding: 28px 0; }
+  footer .foot-grid { flex-direction: column; align-items: flex-start; gap: 10px; }
+
+  /* ---- Mobile chapter bar ---- */
+  body.has-chapbar { padding-bottom: 56px; }
 
   .mobile-chapbar {
     display: flex; align-items: center;
@@ -950,4 +1020,52 @@ footer a:hover { color: var(--accent); }
   }
   .mcd-item:active { background: rgba(255,255,255,.05); }
   .mcd-item.active { color: var(--accent); border-left-color: var(--accent); }
+}
+
+@media (max-width: 480px) {
+  /* ---- Base ---- */
+  .wrap { padding: 0 14px; }
+  section { padding: 28px 0; }
+
+  /* ---- Nav ---- */
+  .brand span { display: none; }
+  .nav-links a.cta { padding: 7px 13px; font-size: .85rem; }
+
+  /* ---- Hero ---- */
+  .hero { padding: 28px 0 24px; }
+  .btn-row { gap: 10px; }
+  .btn { padding: 10px 18px; font-size: .9rem; }
+
+  /* ---- Stats ---- */
+  .stats { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .stat { padding: 18px 14px; }
+  .stat .num { font-size: 1.9rem; }
+
+  /* ---- Leaderboard ---- */
+  table.board thead th,
+  table.board td { padding: 8px 8px; font-size: .82rem; }
+  .scorebar { min-width: 60px; }
+  .scorebar .val { display: none; }
+
+  /* ---- Case page ---- */
+  .case-head { padding: 24px 0 10px; }
+  .lang-switch { flex-wrap: wrap; border-radius: var(--radius); }
+  .lang-switch button { padding: 7px 12px; font-size: .82rem; }
+
+  /* ---- Dossier ---- */
+  .dossier { padding: 20px 14px; font-size: .98rem; line-height: 1.72; }
+  .dossier h2.puzzle-sec { font-size: 1.25rem; }
+
+  /* ---- Cover ---- */
+  .cover-page { padding: 24px 0 16px; }
+
+  /* ---- Solve form ---- */
+  .solve-card { padding: 18px 14px; }
+
+  /* ---- Footer ---- */
+  footer { padding: 22px 0; font-size: .84rem; }
+
+  /* ---- Puzzle cards ---- */
+  .pcard .case-no { font-size: 1.6rem; }
+  .pcard h3 { font-size: 1.15rem; }
 }

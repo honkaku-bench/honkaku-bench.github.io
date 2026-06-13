@@ -122,38 +122,49 @@
 <!-- ============ ENVELOPE INTRO OVERLAY ============ -->
 <div class="env-overlay" id="envOverlay">
   <div class="env-inner">
-    <div class="env-box" id="envBox">
-      <!-- Letter card — rises out on open -->
+    <div class="env-scene" id="envScene">
+
+      <!-- Letter card: sibling of env-box, no z-index conflict with flap -->
       <div class="env-card">
-        <div class="env-card-stamp">Honkaku Bench &middot; Confidential</div>
+        <div class="env-card-stamp">Honkaku Bench &nbsp;&middot;&nbsp; Confidential</div>
         <div class="env-card-rule"></div>
         <p class="env-card-text">A case awaits you.</p>
         <p class="env-card-sub">Every clue is on the page.</p>
       </div>
-      <!-- Envelope body — line art -->
-      <svg class="env-svg" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0.5" y="0.5" width="319" height="199"/>
-        <line x1="0"   y1="199" x2="160" y2="118"/>
-        <line x1="320" y1="199" x2="160" y2="118"/>
-        <line x1="0"   y1="0"   x2="160" y2="118" stroke-opacity="0.30"/>
-        <line x1="320" y1="0"   x2="160" y2="118" stroke-opacity="0.30"/>
-      </svg>
-      <!-- Flap — dark-filled triangle, rotates open on click -->
-      <div class="env-flap">
-        <svg viewBox="0 0 320 122" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <polygon points="0,0 320,0 160,121"/>
+
+      <!-- Envelope box -->
+      <div class="env-box">
+        <!-- Line-art body -->
+        <svg class="env-svg" viewBox="0 0 380 220" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0.5" y="0.5" width="379" height="219"/>
+          <line x1="0"   y1="219" x2="190" y2="128"/>
+          <line x1="380" y1="219" x2="190" y2="128"/>
+          <line x1="0"   y1="1"   x2="190" y2="128" stroke-opacity="0.28"/>
+          <line x1="380" y1="1"   x2="190" y2="128" stroke-opacity="0.28"/>
         </svg>
+        <!-- Flap: dark-filled triangle, rotates on open -->
+        <div class="env-flap">
+          <svg viewBox="0 0 380 134" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <polygon points="0,0.5 380,0.5 190,133.5"
+              fill="#020304"
+              stroke="rgba(200,162,52,0.45)" stroke-width="1" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <!-- Seal: two concentric circles, HB monogram -->
+        <div class="env-seal">
+          <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="26" cy="26" r="24" stroke="rgba(176,53,48,0.65)" stroke-width="1" fill="#020304"/>
+            <circle cx="26" cy="26" r="16" stroke="rgba(176,53,48,0.38)" stroke-width="0.8"/>
+            <text x="26" y="30" text-anchor="middle"
+              fill="rgba(200,162,52,0.78)"
+              font-family="Helvetica Neue,Helvetica,Arial,sans-serif"
+              font-size="9" font-weight="100" letter-spacing="1.5">HB</text>
+          </svg>
+        </div>
       </div>
-      <!-- Seal -->
-      <div class="env-seal">
-        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="24" cy="24" r="21"/>
-          <circle cx="24" cy="24" r="14"/>
-          <text x="24" y="28" text-anchor="middle">HB</text>
-        </svg>
-      </div>
+
     </div>
-    <p class="env-hint" id="envHint">click to open</p>
+    <p class="env-hint">click to open</p>
   </div>
 </div>
 
@@ -164,17 +175,17 @@
   var overlay = document.getElementById('envOverlay');
   if (!overlay) return;
   try { if (sessionStorage.getItem('hb-opened')) { overlay.style.display = 'none'; return; } } catch (e) {}
-  var box = document.getElementById('envBox');
+  var scene = document.getElementById('envScene');
   var opened = false;
   function open() {
     if (opened) return;
     opened = true;
     overlay.classList.add('opening-started');
-    box.classList.add('opening');
+    scene.classList.add('opening');
     setTimeout(function () {
       overlay.classList.add('gone');
       try { sessionStorage.setItem('hb-opened', '1'); } catch (e) {}
-    }, 2200);
+    }, 2800);
   }
   overlay.addEventListener('click', open);
   document.addEventListener('keydown', function h() {
