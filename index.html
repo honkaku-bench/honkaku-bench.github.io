@@ -8,9 +8,6 @@
 <meta property="og:title" content="Honkaku Bench">
 <meta property="og:description" content="Five frontier models, 79 fair-play mysteries. One model cracks a case in three; the rest, one in ten. A benchmark that grades the reasoning, not the verdict.">
 <meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -126,13 +123,37 @@
 <div class="env-overlay" id="envOverlay">
   <div class="env-inner">
     <div class="env-box" id="envBox">
-      <div class="env-letter"></div>
-      <div class="env-body"></div>
-      <div class="env-flap"></div>
-      <div class="env-seal">&#9906;</div>
+      <!-- Letter card — rises out on open -->
+      <div class="env-card">
+        <div class="env-card-stamp">Honkaku Bench &middot; Confidential</div>
+        <div class="env-card-rule"></div>
+        <p class="env-card-text">A case awaits you.</p>
+        <p class="env-card-sub">Every clue is on the page.</p>
+      </div>
+      <!-- Envelope body — line art -->
+      <svg class="env-svg" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0.5" y="0.5" width="319" height="199"/>
+        <line x1="0"   y1="199" x2="160" y2="118"/>
+        <line x1="320" y1="199" x2="160" y2="118"/>
+        <line x1="0"   y1="0"   x2="160" y2="118" stroke-opacity="0.30"/>
+        <line x1="320" y1="0"   x2="160" y2="118" stroke-opacity="0.30"/>
+      </svg>
+      <!-- Flap — dark-filled triangle, rotates open on click -->
+      <div class="env-flap">
+        <svg viewBox="0 0 320 122" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          <polygon points="0,0 320,0 160,121"/>
+        </svg>
+      </div>
+      <!-- Seal -->
+      <div class="env-seal">
+        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="21"/>
+          <circle cx="24" cy="24" r="14"/>
+          <text x="24" y="28" text-anchor="middle">HB</text>
+        </svg>
+      </div>
     </div>
-    <p class="env-tagline">A case file awaits you.</p>
-    <p class="env-hint">Click to open</p>
+    <p class="env-hint" id="envHint">click to open</p>
   </div>
 </div>
 
@@ -144,12 +165,16 @@
   if (!overlay) return;
   try { if (sessionStorage.getItem('hb-opened')) { overlay.style.display = 'none'; return; } } catch (e) {}
   var box = document.getElementById('envBox');
+  var opened = false;
   function open() {
+    if (opened) return;
+    opened = true;
+    overlay.classList.add('opening-started');
     box.classList.add('opening');
     setTimeout(function () {
       overlay.classList.add('gone');
       try { sessionStorage.setItem('hb-opened', '1'); } catch (e) {}
-    }, 720);
+    }, 2200);
   }
   overlay.addEventListener('click', open);
   document.addEventListener('keydown', function h() {

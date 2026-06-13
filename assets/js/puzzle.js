@@ -138,6 +138,8 @@
     window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
   }
 
+  var mobileBarRef = null;
+
   function refresh() {
     dossier.querySelectorAll(".lang-pane").forEach(function (pane) {
       pane.querySelectorAll(".chapter-sec").forEach(function (s, i) {
@@ -153,8 +155,101 @@
       nav.querySelector(".ch-prev").disabled = cur === 0;
       nav.querySelector(".ch-next").disabled = cur === total - 1;
     });
+    if (mobileBarRef) mobileBarRef.update();
+  }
+
+  /* ---- Mobile bottom chapter bar ---- */
+  function makeMobileBar() {
+    var bar = document.createElement("div");
+    bar.className = "mobile-chapbar";
+    bar.innerHTML =
+      '<button class="mcb-btn mcb-prev" aria-label="Previous chapter">&#8592;</button>' +
+      '<button class="mcb-center" aria-haspopup="listbox" aria-expanded="false">' +
+        '<span class="mcb-text"></span>' +
+        '<svg class="mcb-chevron" viewBox="0 0 16 16" aria-hidden="true">' +
+          '<polyline points="3,11 8,5 13,11"/>' +
+        '</svg>' +
+      '</button>' +
+      '<button class="mcb-btn mcb-next" aria-label="Next chapter">&#8594;</button>';
+
+    var drawer = document.createElement("div");
+    drawer.className = "mobile-chapdrawer";
+    drawer.setAttribute("aria-hidden", "true");
+    var inner = document.createElement("div");
+    inner.className = "mcd-inner";
+    drawer.appendChild(inner);
+
+    bar.querySelector(".mcb-prev").addEventListener("click", function () {
+      if (cur > 0) { cur--; refresh(); scrollUp(); }
+    });
+    bar.querySelector(".mcb-next").addEventListener("click", function () {
+      if (cur < total - 1) { cur++; refresh(); scrollUp(); }
+    });
+
+    var drawerOpen = false;
+    var center = bar.querySelector(".mcb-center");
+
+    function openDrawer() {
+      drawerOpen = true;
+      drawer.classList.add("open");
+      drawer.setAttribute("aria-hidden", "false");
+      center.setAttribute("aria-expanded", "true");
+      bar.classList.add("drawer-open");
+    }
+    function closeDrawer() {
+      drawerOpen = false;
+      drawer.classList.remove("open");
+      drawer.setAttribute("aria-hidden", "true");
+      center.setAttribute("aria-expanded", "false");
+      bar.classList.remove("drawer-open");
+    }
+
+    center.addEventListener("click", function () {
+      if (drawerOpen) closeDrawer(); else openDrawer();
+    });
+
+    document.addEventListener("click", function (e) {
+      if (drawerOpen && !bar.contains(e.target) && !drawer.contains(e.target)) {
+        closeDrawer();
+      }
+    });
+
+    function buildList() {
+      inner.innerHTML = "";
+      var p = dossier.querySelector(".lang-pane.active") || firstPane;
+      p.querySelectorAll(".chapter-sec").forEach(function (s, i) {
+        var h = s.querySelector("h2.puzzle-sec");
+        var label = i === 0 ? "Case File" : (h ? h.textContent.trim() : "Part " + i);
+        var btn = document.createElement("button");
+        btn.className = "mcd-item" + (i === cur ? " active" : "");
+        btn.textContent = (i === 0 ? "" : i + ". ") + label;
+        btn.addEventListener("click", function () {
+          cur = i; refresh(); scrollUp(); closeDrawer();
+        });
+        inner.appendChild(btn);
+      });
+    }
+
+    document.body.appendChild(drawer);
+    document.body.appendChild(bar);
+
+    return {
+      update: function () {
+        var t = chapterTitle();
+        var lbl = cur === 0
+          ? "Case File  ·  1 / " + total
+          : cur + " / " + (total - 1) + (t ? "  ·  " + t : "");
+        bar.querySelector(".mcb-text").textContent = lbl;
+        bar.querySelector(".mcb-prev").disabled = cur === 0;
+        bar.querySelector(".mcb-next").disabled = cur === total - 1;
+        buildList();
+      }
+    };
   }
 
   onLangChange = refresh;
   refresh();
+
+  mobileBarRef = makeMobileBar();
+  mobileBarRef.update();
 })();
