@@ -915,11 +915,41 @@ footer a:hover { color: var(--accent); }
   /* ---- Stats ---- */
   .stat .num { font-size: 2.1rem; }
 
-  /* ---- Leaderboard ---- */
-  table.board thead th,
-  table.board td { padding: 10px 10px; font-size: .88rem; }
-  .scorebar { min-width: 100px; }
-  .scorebar .val { width: 38px; }
+  /* ---- Leaderboard: card layout ---- */
+  .board-wrap {
+    overflow-x: unset; border: none; box-shadow: none;
+    border-radius: 0; background: transparent;
+  }
+  table.board { min-width: unset; display: block; }
+  table.board thead { display: none; }
+  table.board tbody { display: block; }
+  table.board tbody tr {
+    display: flex; flex-wrap: wrap;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px;
+    margin-bottom: 8px;
+  }
+  table.board tbody tr:last-child { margin-bottom: 0; }
+  table.board tbody tr:hover { background: rgba(200,160,53,.04); border-color: rgba(200,160,53,.18); }
+  table.board td { border: none; padding: 0; }
+  table.board td.model {
+    width: 100%; display: flex; align-items: center; gap: 8px;
+    font-size: .95rem;
+    padding-bottom: 10px; margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  table.board td:not(.model) {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; text-align: center; font-size: .9rem;
+  }
+  table.board td:not(.model)::before {
+    display: block; margin-bottom: 4px;
+    font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--faint);
+  }
+  table.board td:nth-child(2)::before { content: "Perfect"; }
+  table.board td:nth-child(3)::before { content: "Solved ≥90%"; }
+  table.board td:nth-child(4)::before { content: "Mean"; }
 
   /* ---- Case studies ---- */
   .quote-pair { grid-template-columns: 1fr; }

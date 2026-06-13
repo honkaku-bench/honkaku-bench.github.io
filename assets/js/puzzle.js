@@ -232,6 +232,7 @@
 
     document.body.appendChild(drawer);
     document.body.appendChild(bar);
+    document.body.classList.add("has-chapbar");
 
     return {
       update: function () {
