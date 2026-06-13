@@ -1,7 +1,6 @@
 {
   "id": "08",
   "en_title": "(Not) Random Ball-Drawing",
-  "zh_title": "并非随机抽球",
   "teaser": "A 'pure luck' ball-drawing relay, a half-glimpsed scoreboard, and a color-blind teammate hide a guaranteed-win strategy.",
   "tags": ["Probability", "Combinatorics", "Logic", "Observation"],
   "difficulty": "Fiendish",
