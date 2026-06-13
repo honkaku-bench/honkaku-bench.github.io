@@ -30,18 +30,17 @@ SITE_URL = "https://honkaku-bench.github.io"
 EMAIL = "honkakubench@gmail.com"
 
 NAV = """<header class="nav"><div class="wrap nav-inner">
-  <a class="brand" href="{home}index.html"><span class="mag">&#9906;</span>HONKAKU&nbsp;<b>BENCH</b></a>
+  <a class="brand" href="{home}index.html"><svg class="mag" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><line x1="12.9" y1="12.9" x2="18" y2="18"/></svg><span>HONKAKU<b>BENCH</b></span></a>
   <nav class="nav-links">
     <a href="{home}index.html#results">Results</a>
-    <a href="{home}index.html#cases">Case Studies</a>
-    <a href="{home}index.html#method">Method</a>
+    <a href="{home}analysis.html">Analysis</a>
     <a class="cta" href="{home}puzzles.html">Try a Case</a>
   </nav>
 </div></header>"""
 
 FOOT = """<footer><div class="wrap foot-grid">
   <div>HONKAKU BENCH &middot; 79 honkaku mysteries vs. frontier LLMs &middot; graded by an LLM judge on the reasoning chain, not just the verdict.</div>
-  <div><a href="{home}index.html">Home</a> &nbsp;&middot;&nbsp; <a href="{home}puzzles.html">The Cases</a> &nbsp;&middot;&nbsp; <a href="mailto:{email}">{email}</a></div>
+  <div><a href="{home}index.html">Home</a> &nbsp;&middot;&nbsp; <a href="{home}analysis.html">Analysis</a> &nbsp;&middot;&nbsp; <a href="{home}puzzles.html">The Cases</a> &nbsp;&middot;&nbsp; <a href="mailto:{email}">{email}</a></div>
 </div></footer>"""
 
 HEAD = """<!DOCTYPE html>
@@ -174,7 +173,6 @@ def card(meta):
       <span class="diff {diff}">{diff}</span>
     </div>
     <h3>{meta['en_title']}</h3>
-    <div class="zh">{meta.get('zh_title','')}</div>
     <p class="teaser">{meta.get('teaser','')}</p>
     <div class="tags">{tags}</div>
     <div class="pcard-foot"><span>Open the case file</span><span>Best AI &middot; {f:.0f}%</span></div>

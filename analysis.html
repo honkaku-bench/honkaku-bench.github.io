@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Analysis — Honkaku Bench</title>
+<meta name="description" content="Three case studies, a harness-vs-raw experiment, and a post-mortem on 345 failures across five frontier models.">
+<meta property="og:title" content="Honkaku Bench — Analysis">
+<meta property="og:description" content="Where the reasoning breaks: case studies, the agent harness experiment, and failure forensics across 345 sub-85% solves.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="index.html"><svg class="mag" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><line x1="12.9" y1="12.9" x2="18" y2="18"/></svg><span>HONKAKU<b>BENCH</b></span></a>
+  <nav class="nav-links">
+    <a href="index.html#results">Results</a>
+    <a href="analysis.html">Analysis</a>
+    <a class="cta" href="puzzles.html">Try a Case</a>
+  </nav>
+</div></header>
+
+<!-- hover-expand TOC drawer -->
+<aside class="toc" id="toc" aria-label="Page navigation">
+  <div class="toc-grip" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="toc-dots" aria-hidden="true">
+    <span class="toc-dot" data-for="key-findings"></span>
+    <span class="toc-dot" data-for="cases"></span>
+    <span class="toc-dot" data-for="harness"></span>
+    <span class="toc-dot" data-for="failures"></span>
+  </div>
+  <nav class="toc-nav">
+    <div class="toc-label">On this page</div>
+    <a href="#key-findings">Key Findings</a>
+    <a href="#cases">Case Studies</a>
+    <a href="#case-07" class="toc-sub">RPG JUMP</a>
+    <a href="#case-04" class="toc-sub">Magic Door</a>
+    <a href="#case-08" class="toc-sub">Ball-Drawing</a>
+    <a href="#harness">Harness vs. Raw</a>
+    <a href="#failures">Failure Forensics</a>
+  </nav>
+</aside>
+
+<main>
+
+<section class="hero" style="padding-bottom:32px">
+  <div class="wrap">
+    <span class="eyebrow">Deep Dive</span>
+    <h1>Analysis &amp; <span class="hl">Case Studies</span></h1>
+    <p class="lede">Three illustrative cases, one harness experiment, and a post-mortem on 345 failures. The recurring finding: models don&rsquo;t lose because they missed a clue &mdash; they lose because they reasoned flawlessly on top of a wrong premise.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============ HEADLINE READING ============ -->
+<section id="key-findings">
+  <div class="wrap narrow">
+    <div class="callout">
+      <p style="margin-top:0">The headline isn't a mean. It's the <b>solve rate</b>: Fable&nbsp;5 actually <em>cracks</em> roughly <b>one case in three</b> &mdash; while four other frontier models cluster at <b>one in ten</b>, bunched within a few points of each other on mean score. Partial credit flatters everyone; &ldquo;did it solve it end&#8209;to&#8209;end?&rdquo; is the question that opens the gap. And on the one public puzzle where <em>both Fable and Opus named the same killer</em>, the reasoning-aware judge split them <b>16&nbsp;vs&nbsp;1</b> &mdash; only a judge grading the chain, not the verdict, can tell a real solve from a lucky name.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============ CASE STUDIES ============ -->
+<section id="cases">
+  <div class="wrap">
+    <div class="section-tag">Case Studies</div>
+    <h2 class="section-title">Where the reasoning breaks</h2>
+    <p class="section-intro">Three findings from the benchmark. The hooks are spoiler-free &mdash; but the analysis names the trick and the culprit, so it's tucked behind a warning. If you'd rather solve these yourself first, head to <a href="puzzles.html">the portal</a>.</p>
+
+    <div class="cases">
+
+      <!-- Case study 1: RPG JUMP -->
+      <article class="case" id="case-07">
+        <div class="case-sub">Example 1 &middot; Case 07 &middot; "RPG JUMP"</div>
+        <h3>Same clue, opposite reading</h3>
+        <p>Seven temples on a grid map. Every 50 minutes a teleport spell yanks every player to the <em>nearest other temple</em> &mdash; corpses included. The whole puzzle hinges on one quietly devastating question: <strong>what does &ldquo;nearest&rdquo; mean?</strong> Both models seized on the same calibration clue. Both then named the <em>same killer</em>. One had truly solved it; the other had reasoned beautifully over a map of which-temple-connects-to-which that was simply wrong.</p>
+        <details class="spoiler">
+          <summary>Reveal the analysis &mdash; spoils Case 07</summary>
+          <div class="spoiler-body">
+            <figure>
+              <img src="assets/img/rpg_jump_map.png" alt="RPG JUMP temple map">
+              <figcaption>The seven temples. The trick is buried in how you measure the distance between them.</figcaption>
+            </figure>
+            <p>The case hands you a calibration clue: from temple 106, the next jump is <em>equally likely</em> to land on 104, 105, or 107.</p>
+            <div class="quote-pair">
+              <div class="qbox opus">
+                <div class="who">Opus 4.8</div>
+                &ldquo;nearest temple = shortest door-to-door travel time = <strong>straight-line distance</strong>&hellip; matches Claire's hint &mdash; <strong>model verified correct.</strong>&rdquo;
+              </div>
+              <div class="qbox fable">
+                <div class="who">Fable 5</div>
+                &ldquo;If you compute door-to-door distance by <strong>four-directional (grid) movement</strong> &mdash; the classic RPG walk &mdash; 106&rarr;104 = west 2000 + south 1000 = 3000m&hellip;&rdquo;
+              </div>
+            </div>
+            <p>Opus read the world as <strong>Euclidean</strong> and literally annotated its own model &ldquo;verified correct.&rdquo; Fable read it as <strong>Manhattan</strong> distance &mdash; the actual trick the author buried (the puzzle is <em>named</em> RPG JUMP for a reason). Both then named the same killer. But Opus arrived there over a wrong connectivity map; Fable correctly worked out the one-way temple that can hide a killer and two victims with no witnesses.</p>
+            <div class="scoreline">
+              <span class="chip win">Fable 5 &nbsp;<b>16/18</b></span>
+              <span class="chip lose">Opus 4.8 &nbsp;<b>1/18</b></span>
+              <span class="chip muted" style="color:var(--muted)">Opus got a single charity point for naming the right culprit. Everything else was built on sand.</span>
+            </div>
+          </div>
+        </details>
+      </article>
+
+      <!-- Case study 2: Magic Door -->
+      <article class="case" id="case-04">
+        <div class="case-sub">Example 2 &middot; Case 04 &middot; "The Magic Door Murders"</div>
+        <h3>Right clue, wrong trick</h3>
+        <p>A sealed bunker has a door that shuts ~40 seconds too early each night. Both models caught the hardest leap &mdash; that the 40-second discrepancy means a time-zone difference. That's the threshold insight. From there, one reconstructed the real mechanism and fingered the right man; the other reached the same insight and then <em>improvised</em> a plausible-sounding structure that diverged from the truth.</p>
+        <details class="spoiler">
+          <summary>Reveal the analysis &mdash; spoils Case 04</summary>
+          <div class="spoiler-body">
+            <p>The real trick: the magic doors are <strong>paired across time zones</strong>, and a 40-second offset corresponds to ~18&nbsp;km along the equator &mdash; pointing to a hidden relay door and an &ldquo;in-between space&rdquo; the killer uses to escape the locked room.</p>
+            <ul class="clean">
+              <li><span class="mk">Fable 5</span><span><b>20/20.</b> Reconstructed the full hidden-relay trick, then used two constraints &mdash; who could hide in the bunker after 7pm, and who couldn't walk 18 km back in time &mdash; to correctly finger <strong>Bill</strong>.</span></li>
+              <li><span class="mk">Opus 4.8</span><span><b>8/20.</b> Took the same 40-second clue but invented a different mechanism (a fictional second secret door) and a different timeline, then accused the wrong man.</span></li>
+            </ul>
+            <p class="muted">The pattern repeats: Opus reaches the threshold insight, then narrates a confident structure around it. Fable does the grind &mdash; checking each constraint until one suspect survives.</p>
+          </div>
+        </details>
+      </article>
+
+      <!-- Case study 3: Ball drawing -->
+      <article class="case" id="case-08">
+        <div class="case-sub">Example 3 &middot; Case 08 &middot; "(Not) Random Ball-Drawing"</div>
+        <h3>A flawless proof of the wrong premise</h3>
+        <p>Lest this read as a Fable infomercial: here's the most instructive case of all, and one where Fable loses badly. A probability puzzle whose whole edifice rests on reading two <em>soft, observational</em> clues correctly &mdash; what a hand gesture means, and what a girl is wearing. Pick the wrong fork, and you can still build an airtight, self-consistent, computationally-verified universe&hellip; that happens to be false.</p>
+        <details class="spoiler">
+          <summary>Reveal the analysis &mdash; spoils Case 08</summary>
+          <div class="spoiler-body">
+            <p>Fable read the gesture as <strong>12</strong> (a class number on a jersey) and built a fully self-consistent 12/12/24 system &mdash; it even <em>wrote a program to brute-force-verify</em> that its system satisfied every stated constraint. The logic was airtight. The premise was wrong.</p>
+            <div class="scoreline">
+              <span class="chip lose">Fable 5 &nbsp;<b>5/19</b></span>
+              <span class="chip lose">Opus 4.8 &nbsp;<b>0/19</b></span>
+            </div>
+            <p class="muted" style="margin-top:16px">Look at the one sub-question that's <em>pure deduction with no soft-clue fork</em>: Fable scored a flawless 2/2, reasoning identical to the official solution. Then every downstream question collapsed &mdash; because each inherited the misread clue. This is the same failure that sank Opus on RPG JUMP, just wearing Fable's clothes: <strong>commit to a wrong premise, then reason flawlessly on top of it.</strong> And the clue that trips you is never a logic step &mdash; it's a piece of observational flavor text.</p>
+          </div>
+        </details>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============ HARNESS VS NO HARNESS ============ -->
+<section id="harness">
+  <div class="wrap">
+    <div class="section-tag">Analysis &middot; Harness vs. No Harness</div>
+    <h2 class="section-title">Does the agent harness even help?</h2>
+    <p class="section-intro">Every score above came from a model wrapped in a coding <em>harness</em> &mdash; a Claude&nbsp;Code agent that can open files, view images, and run code in a shell. So we ran the control: the <strong>same Opus&nbsp;4.8</strong>, on the same 70 cases, as a single raw API call &mdash; puzzle text and images in, one answer out. No tools, no shell, no second turn.</p>
+
+    <div class="board-wrap" style="margin-top:8px">
+      <table class="board">
+        <thead>
+          <tr><th>Opus&nbsp;4.8 setup</th><th>Perfect&nbsp;(100%)</th><th>Solved&nbsp;end&#8209;to&#8209;end&nbsp;(&ge;90%)</th><th>Mean&nbsp;(partial)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="model"><span class="dot opus"></span>With the agent harness</td><td>6%</td><td>10%</td><td><span class="big-num">46.0%</span></td></tr>
+          <tr><td class="model"><span class="dot opus"></span>Raw &mdash; one shot, no tools</td><td>7%</td><td>10%</td><td><span class="big-num">38.2%</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="color:var(--faint);margin-top:14px">Same model, same 70 cases. The harnessed agent gets the puzzle, its images, and a shell; the raw run gets the puzzle and images in a single API call &mdash; one answer out.</p>
+
+    <figure style="margin:28px auto 0;max-width:620px">
+      <img src="assets/img/harness_vs_raw.svg" alt="Density curves of judge scores for Opus 4.8 with vs. without the agent harness. The harnessed curve sits higher in the mid-range; the raw curve is heavier at the low end; both share the same upper tail." style="border-radius:10px">
+      <figcaption style="color:var(--faint);font-size:.85rem;margin-top:10px;text-align:center">Score density (smoothed). The harness shifts mass out of the low end into the middle &mdash; but the upper tail is unchanged. More partial credit, not more end-to-end solves.</figcaption>
+    </figure>
+
+    <div class="callout" style="margin-top:30px">
+      <p style="margin-top:0">The harness adds <b>+7.8 points of mean</b> &mdash; but look at the solve columns: <b>Perfect and end&#8209;to&#8209;end barely move</b> (raw even edges it on perfect scores). So the tooling isn't cracking new cases outright; it's banking <em>more partial credit</em> on cases the model still doesn't fully solve. The gain is concentrated on the <b>quantitative puzzles</b>, where a shell lets the model <em>verify</em> a deduction by actually running it &mdash; substantive shell use is otherwise rare (only about <b>3&ndash;5% of tool calls</b> run or write code; the rest is reading files and viewing images). And it cuts both ways: on narrative cases the multi&#8209;turn tool loop can talk itself into a wrong frame and score <em>below</em> the one&#8209;shot model.</p>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============ FAILURE ANALYSIS ============ -->
+<section id="failures">
+  <div class="wrap">
+    <div class="section-tag">Analysis &middot; Failure Forensics</div>
+    <h2 class="section-title">Why they fail &mdash; it isn't the clues</h2>
+    <p class="section-intro">We ran an LLM post-mortem on every sub-85% solve &mdash; <strong>345 of them</strong> across all six model/harness configurations &mdash; handing the judge the official solution, the grade, and the model's own reasoning trace, and asking it to name exactly where the chain snapped.</p>
+
+    <p class="section-intro" style="margin-top:26px">The verdict is strikingly consistent across models: they <em>had</em> the clues in hand and reasoned their way to the wrong place. Almost nobody loses for failing to <em>see</em> the evidence &mdash; they lose on the deduction built on top of it. Which is exactly why the harness helps only where it can <em>check</em> that deduction.</p>
+
+    <div class="board-wrap" style="margin-top:24px">
+      <table class="board">
+        <thead>
+          <tr><th>Model / setup</th><th>Flawed&nbsp;deduction</th><th>Wrong&nbsp;conclusion</th><th>Incomplete</th><th>Missed&nbsp;clue</th><th>Analyzed</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="model"><span class="dot fable"></span>Fable 5</td><td>25</td><td>12</td><td>6</td><td>0</td><td>43</td></tr>
+          <tr><td class="model"><span class="dot opus"></span>Opus 4.8 &middot; harness</td><td>28</td><td>26</td><td>5</td><td>2</td><td>61</td></tr>
+          <tr><td class="model"><span class="dot opus"></span>Opus 4.8 &middot; raw</td><td>32</td><td>24</td><td>7</td><td>0</td><td>63</td></tr>
+          <tr><td class="model"><span class="dot opus46"></span>Opus 4.6 &middot; harness</td><td>34</td><td>17</td><td>4</td><td>1</td><td>57</td></tr>
+          <tr><td class="model"><span class="dot gpt"></span>GPT&#8209;5.5</td><td>28</td><td>15</td><td class="win"><b>14</b></td><td>1</td><td>59</td></tr>
+          <tr><td class="model"><span class="dot gemini"></span>Gemini</td><td>30</td><td>25</td><td>5</td><td>2</td><td>62</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note" style="color:var(--faint);margin-top:14px">Counts of cases by the single most important failure mode (only solves scoring &lt;85% are analyzed, so the totals differ by model). GPT&#8209;5.5 stands apart: far more <em>incomplete reasoning</em> (14) and fewer wrong conclusions &mdash; it tends to <em>stop short</em> rather than commit to a wrong answer. Everyone else mostly fails by committing to a deduction that doesn't hold.</p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ============ CTA ============ -->
+<section>
+  <div class="wrap narrow" style="text-align:center">
+    <h2 class="section-title">Now it's your turn.</h2>
+    <p class="section-intro" style="margin:0 auto 28px">Eight cases. Every clue on the page. No answer key in sight. Read one, out-deduce the machine, and send us your reasoning &mdash; it goes straight to the benchmark authors.</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="puzzles.html">Enter the portal &rarr;</a>
+      <a class="btn btn-ghost" href="index.html">Back to results</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer><div class="wrap foot-grid">
+  <div>HONKAKU BENCH &middot; 79 honkaku mysteries vs. frontier LLMs &middot; graded by an LLM judge on the reasoning chain, not just the verdict.</div>
+  <div><a href="index.html">Home</a> &nbsp;&middot;&nbsp; <a href="analysis.html">Analysis</a> &nbsp;&middot;&nbsp; <a href="puzzles.html">The Cases</a> &nbsp;&middot;&nbsp; <a href="mailto:honkakubench@gmail.com">honkakubench@gmail.com</a></div>
+</div></footer>
+
+<script>
+(function () {
+  var toc   = document.getElementById('toc');
+  var links = toc ? toc.querySelectorAll('a[href^="#"]') : [];
+  var dots  = toc ? toc.querySelectorAll('.toc-dot[data-for]') : [];
+  if (!links.length) return;
+
+  var ids = ['key-findings', 'cases', 'case-07', 'case-04', 'case-08', 'harness', 'failures'];
+  var sections = ids.map(function (id) { return document.getElementById(id); }).filter(Boolean);
+
+  /* map sub-section ids to their parent dot */
+  var dotParent = { 'case-07': 'cases', 'case-04': 'cases', 'case-08': 'cases' };
+
+  function setActive(id) {
+    links.forEach(function (l) { l.classList.remove('active'); });
+    var link = toc.querySelector('a[href="#' + id + '"]');
+    if (link) link.classList.add('active');
+
+    var dotId = dotParent[id] || id;
+    dots.forEach(function (d) {
+      d.classList.toggle('active', d.dataset.for === dotId);
+    });
+  }
+
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) setActive(e.target.id);
+    });
+  }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(function (s) { obs.observe(s); });
+})();
+</script>
+
+</body>
+</html>

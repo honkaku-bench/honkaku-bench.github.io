@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 600" font-family="Helvetica, Arial, sans-serif">
+  <rect width="720" height="600" fill="#ffffff"/>
+  <defs>
+    <marker id="blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2f5cb0"/>
+    </marker>
+    <marker id="blue2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2f5cb0"/>
+    </marker>
+  </defs>
+
+  <!-- island -->
+  <circle cx="360" cy="300" r="250" fill="#e9e9e9" stroke="#cfcfcf" stroke-width="2"/>
+
+  <!-- the two connected points -->
+  <line x1="318" y1="270" x2="318" y2="320" stroke="#7f7f7f" stroke-width="1.5"/>
+  <line x1="500" y1="270" x2="500" y2="320" stroke="#7f7f7f" stroke-width="1.5"/>
+
+  <!-- walk: curved arrow over the top, point B back to point A -->
+  <path d="M 500 288 C 472 222 346 222 320 288" fill="none" stroke="#2f5cb0" stroke-width="6" stroke-linecap="round" marker-end="url(#blue2)"/>
+  <text x="409" y="205" text-anchor="middle" font-size="24" font-weight="600" fill="#1a1a1a">walk</text>
+
+  <!-- teleport: straight arrow A to B -->
+  <line x1="318" y1="300" x2="498" y2="300" stroke="#2f5cb0" stroke-width="5" marker-end="url(#blue)"/>
+  <text x="409" y="338" text-anchor="middle" font-size="24" font-weight="600" fill="#1a1a1a">teleport</text>
+</svg>

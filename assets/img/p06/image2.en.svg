@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 480" font-family="Helvetica, Arial, sans-serif">
+  <rect width="620" height="480" fill="#ffffff"/>
+  <defs>
+    <marker id="thin" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#222"/>
+    </marker>
+  </defs>
+
+  <!-- the lake -->
+  <circle cx="310" cy="245" r="205" fill="none" stroke="#111" stroke-width="5"/>
+
+  <!-- the corpse at the centre -->
+  <circle cx="310" cy="255" r="6" fill="#111"/>
+  <line x1="408" y1="178" x2="322" y2="248" stroke="#222" stroke-width="1.6" marker-end="url(#thin)"/>
+  <text x="412" y="170" font-size="20" fill="#222">Ice-Walker (corpse)</text>
+</svg>

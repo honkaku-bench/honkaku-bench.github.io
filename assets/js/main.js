@@ -9,7 +9,7 @@
     { id: "05", title: "The Londinium Banquet",      fable: 100.0, opus: 100.0 },
     { id: "06", title: "Nisemono Maniac",            fable: 100.0, opus: 55.0 },
     { id: "07", title: "RPG JUMP",                   fable: 88.9, opus: 5.6 },
-    { id: "08", title: "Not (Random) Ball-Drawing",  fable: 26.3, opus: 0.0 }
+    { id: "08", title: "(Not) Random Ball-Drawing",  fable: 26.3, opus: 0.0 }
   ];
 
   function bar(cls, val) {
@@ -30,3 +30,4 @@
       '</tr>';
   }).join("");
 })();
+

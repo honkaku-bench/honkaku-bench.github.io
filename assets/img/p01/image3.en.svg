@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 660" font-family="Helvetica, Arial, sans-serif">
+  <rect width="840" height="660" fill="#ffffff"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#111"/></marker>
+    <marker id="bluearrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f6fe0"/></marker>
+  </defs>
+  <path d="M 551.7 228.2 L 421.8 98.3 L 238.2 98.3 L 108.3 228.2 L 108.3 411.8 L 238.2 541.7 L 421.8 541.7 L 551.7 411.8 Z" fill="none" stroke="#111" stroke-width="3.5" stroke-linejoin="round"/>
+  <line x1="570.0" y1="320.0" x2="90.0" y2="320.0" stroke="#111" stroke-width="2.5"/>
+  <line x1="499.7" y1="150.3" x2="160.3" y2="489.7" stroke="#111" stroke-width="2.5"/>
+  <line x1="330.0" y1="80.0" x2="330.0" y2="560.0" stroke="#111" stroke-width="2.5"/>
+  <line x1="160.3" y1="150.3" x2="499.7" y2="489.7" stroke="#111" stroke-width="2.5"/>
+  <circle cx="330" cy="320" r="80" fill="none" stroke="#e23b3b" stroke-width="3"/>
+  <text x="287.5" y="302.4" text-anchor="middle" font-size="15" font-weight="600" fill="#e23b3b" transform="rotate(-25 287.5 302.4)">Peter</text>
+  <path d="M 690 470 Q 740 360 705 250" fill="none" stroke="#111" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="752" y="300" font-size="18" fill="#222">Rotation</text>
+  <text x="752" y="324" font-size="18" fill="#222">direction</text>
+  <text x="272.6" y="177.4" text-anchor="middle" font-size="18" font-weight="600" fill="#222">Founder</text>
+  <text x="272.6" y="196.4" text-anchor="middle" font-size="14" fill="#444">(No. 1)</text>
+  <text x="387.4" y="177.4" text-anchor="middle" font-size="18" font-weight="600" fill="#222">Andrew</text>
+  <text x="387.4" y="196.4" text-anchor="middle" font-size="14" fill="#444">(No. 2)</text>
+  <text x="468.6" y="258.6" text-anchor="middle" font-size="18" font-weight="600" fill="#222">Stephen</text>
+  <text x="468.6" y="277.6" text-anchor="middle" font-size="14" fill="#444">(No. 3)</text>
+  <text x="468.6" y="373.4" text-anchor="middle" font-size="18" font-weight="600" fill="#222">James</text>
+  <text x="468.6" y="392.4" text-anchor="middle" font-size="14" fill="#444">(No. 4)</text>
+  <text x="387.4" y="446.6" text-anchor="middle" font-size="18" font-weight="600" fill="#222">Deputy</text>
+  <text x="387.4" y="464.6"  text-anchor="middle" font-size="18" font-weight="600" fill="#222">Founder</text>
+  <text x="387.4" y="482.6" text-anchor="middle" font-size="14" fill="#444">(No. 5)</text>
+  <text x="272.6" y="454.6" text-anchor="middle" font-size="18" font-weight="600" fill="#222">Zenobia</text>
+  <text x="272.6" y="473.6" text-anchor="middle" font-size="14" fill="#444">(No. 6)</text>
+  <text x="191.4" y="373.4" text-anchor="middle" font-size="18" font-weight="600" fill="#222">John</text>
+  <text x="191.4" y="392.4" text-anchor="middle" font-size="14" fill="#444">(No. 7)</text>
+  <text x="191.4" y="258.6" text-anchor="middle" font-size="18" font-weight="600" fill="#222">Peter</text>
+  <text x="191.4" y="277.6" text-anchor="middle" font-size="14" fill="#444">(No. 8)</text>
+</svg>

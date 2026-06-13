@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="snap-layout">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Honkaku Bench — Can an LLM actually solve a fair-play mystery?</title>
-<meta name="description" content="79 fiendish honkaku puzzle-mysteries handed to frontier LLMs, graded by an LLM judge on the chain of reasoning — not just the verdict. Headline results, case studies, and eight cases you can try yourself.">
+<title>Honkaku Bench — Can an AI actually solve a fair-play murder mystery?</title>
+<meta name="description" content="79 fiendish honkaku puzzle-mysteries handed to five frontier AI models, scored on the full chain of reasoning — not just the verdict. Headline results, case studies, and eight cases you can try yourself.">
 <meta property="og:title" content="Honkaku Bench">
-<meta property="og:description" content="Two frontier models, the same killer named — and only one had actually solved it. A benchmark that grades the reasoning, not the verdict.">
+<meta property="og:description" content="Five frontier models, 79 fair-play mysteries. One model cracks a case in three; the rest, one in ten. A benchmark that grades the reasoning, not the verdict.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,11 +16,10 @@
 <body>
 
 <header class="nav"><div class="wrap nav-inner">
-  <a class="brand" href="index.html"><span class="mag">&#9906;</span>HONKAKU&nbsp;<b>BENCH</b></a>
+  <a class="brand" href="index.html"><svg class="mag" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><line x1="12.9" y1="12.9" x2="18" y2="18"/></svg><span>HONKAKU<b>BENCH</b></span></a>
   <nav class="nav-links">
     <a href="#results">Results</a>
-    <a href="#cases">Case Studies</a>
-    <a href="#method">Method</a>
+    <a href="analysis.html">Analysis</a>
     <a class="cta" href="puzzles.html">Try a Case</a>
   </nav>
 </div></header>
@@ -31,210 +30,87 @@
 <section class="hero">
   <div class="wrap">
     <span class="eyebrow">A benchmark for honkaku (本格) deduction</span>
-    <h1>Same clue.<br><span class="hl">Opposite answer.</span></h1>
-    <p class="lede">We handed <strong>79 fiendish fair-play murder mysteries</strong> &mdash; the genre that swears every clue is on the page &mdash; to two frontier models. Then a third model graded every answer against the official solution, scoring the <em>chain of reasoning</em>, not just the verdict.</p>
-    <p class="sub">On one puzzle, both models confidently named the same killer. One had genuinely solved it. The other had quietly fooled itself with a broken map of reality. The judge caught it. Most humans wouldn't have.</p>
+    <h1>Can an AI<br><span class="hl">solve a murder?</span></h1>
+    <p class="lede">Seventy-nine Honkaku murder mysteries &mdash; the genre that swears every clue is on the page and <em>dares</em> you to name the killer first. We handed the dossiers to <strong>five frontier AI models</strong> and let them play detective. Can they solve the cases with the correct reasoning?</p>
     <div class="btn-row">
+      <a class="btn btn-ghost" href="#results">Verdicts</a>
       <a class="btn btn-primary" href="puzzles.html">Try the cases yourself &rarr;</a>
-      <a class="btn btn-ghost" href="#results">See the results</a>
     </div>
   </div>
+  <div class="scroll-hint" aria-hidden="true">
+    <span>scroll</span>
+    <svg width="14" height="9" viewBox="0 0 14 9" fill="none"><polyline points="1,1 7,8 13,1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
 </section>
-
-<hr class="divider">
 
 <!-- ============ RESULTS ============ -->
-<section id="results">
+<section id="results" class="snap-page">
   <div class="wrap">
-    <div class="section-tag">Headline Results</div>
-    <h2 class="section-title">The scoreboard</h2>
-    <p class="section-intro">Each mystery was solved by a fresh Claude Code agent in its own isolated Docker container: read the case file (and any diagrams), reason it out, write a full solution. <strong>Opus 4.8</strong> acted as judge, grading every answer against the <em>official</em> solution with partial-credit rubrics &mdash; points for the culprit, the method, the trick, the motive, and the deductions that get you there.</p>
+    <div class="snap-card">
+      <div class="section-tag">Headline Results</div>
+      <h2 class="section-title">The scoreboard</h2>
 
-    <div class="stats">
-      <div class="stat"><div class="num">79</div><div class="lbl">mysteries posed</div></div>
-      <div class="stat"><div class="num">70</div><div class="lbl">with official answer keys &mdash; graded &amp; judged</div></div>
-      <div class="stat"><div class="num">2</div><div class="lbl">frontier models, head&#8209;to&#8209;head</div></div>
-      <div class="stat"><div class="num">1</div><div class="lbl">LLM judge, scoring the <em>reasoning</em></div></div>
-    </div>
-
-    <div class="board-wrap">
-      <table class="board">
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th>Mean score</th>
-            <th>Median</th>
-            <th>Perfect&nbsp;(100%)</th>
-            <th>Answers&nbsp;&ge;80%</th>
-            <th>Head&#8209;to&#8209;head wins</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="model"><span class="dot fable"></span>Claude Fable&nbsp;5</td>
-            <td><span class="big-num" style="color:var(--accent)">67.5%</span></td>
-            <td>70.0%</td>
-            <td>11</td>
-            <td>28</td>
-            <td class="win">47</td>
-          </tr>
-          <tr>
-            <td class="model"><span class="dot opus"></span>Claude Opus&nbsp;4.8</td>
-            <td><span class="big-num">46.0%</span></td>
-            <td>44.0%</td>
-            <td>4</td>
-            <td>10</td>
-            <td>11</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="note" style="color:var(--faint);margin-top:14px">Mean over the problems each model actually answered (Fable returned a usable solution to 66 of 70; Opus to all 70). The two ran under different harness limits &mdash; see <a href="#method">Method &amp; caveats</a>. ~12 problems were effectively a tie.</p>
-
-    <div class="callout" style="margin-top:34px">
-      <p style="margin-top:0">The single most important number here isn't 67.5% or 46%. It's <b>16&nbsp;vs&nbsp;1</b> &mdash; the score on a puzzle where <em>both models named the same killer</em>. &ldquo;Did it get the right answer?&rdquo; flatters models. &ldquo;Did it actually <em>solve</em> it, or stumble into the right name over a broken map?&rdquo; is the question that separates them &mdash; and only a judge grading the reasoning chain can tell the difference.</p>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- ============ THE FIRST EIGHT ============ -->
-<section>
-  <div class="wrap">
-    <div class="section-tag">The Released Set</div>
-    <h2 class="section-title">The first eight cases &mdash; and how the AIs did</h2>
-    <p class="section-intro">These eight are public &mdash; the exact case files we gave the models. Each bar is a model's partial-credit score. Notice cases <strong>07</strong> and <strong>08</strong>: even frontier models faceplant. <a href="puzzles.html">Think you can do better?</a></p>
-
-    <div class="board-wrap" style="margin-top:30px">
-      <table class="board">
-        <thead>
-          <tr><th>#</th><th>Case</th><th style="min-width:200px"><span class="dot fable"></span> Fable 5</th><th style="min-width:200px"><span class="dot opus"></span> Opus 4.8</th><th></th></tr>
-        </thead>
-        <tbody id="eight-rows"><!-- filled by JS --></tbody>
-      </table>
-    </div>
-    <div class="btn-row" style="justify-content:flex-start;margin-top:28px">
-      <a class="btn btn-primary" href="puzzles.html">Open the case files &rarr;</a>
+      <div class="board-wrap" style="margin-top:24px">
+        <table class="board">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Perfect&nbsp;(100%)</th>
+              <th>Solved&nbsp;end&#8209;to&#8209;end&nbsp;(&ge;90%)</th>
+              <th>Mean&nbsp;(partial)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="model"><span class="dot fable"></span>Claude Fable&nbsp;5</td>
+              <td>17%</td>
+              <td class="win"><b>34%</b></td>
+              <td><span class="big-num" style="color:var(--accent)">67.7%</span></td>
+            </tr>
+            <tr>
+              <td class="model"><span class="dot opus"></span>Claude Opus&nbsp;4.8</td>
+              <td>6%</td>
+              <td>10%</td>
+              <td><span class="big-num">46.0%</span></td>
+            </tr>
+            <tr>
+              <td class="model"><span class="dot opus46"></span>Claude Opus&nbsp;4.6</td>
+              <td>7%</td>
+              <td>13%</td>
+              <td><span class="big-num">45.8%</span></td>
+            </tr>
+            <tr>
+              <td class="model"><span class="dot gpt"></span>GPT&#8209;5.5</td>
+              <td>7%</td>
+              <td>10%</td>
+              <td><span class="big-num">45.7%</span></td>
+            </tr>
+            <tr>
+              <td class="model"><span class="dot gemini"></span>Gemini</td>
+              <td>4%</td>
+              <td>10%</td>
+              <td><span class="big-num">42.1%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note" style="color:var(--faint);margin-top:14px">All five models answered all 70 graded cases. &ldquo;Solved end&#8209;to&#8209;end&rdquo; counts cases scored &ge;90% &mdash; essentially the complete solution, culprit through deductions, not partial credit; &ldquo;Perfect&rdquo; is a flawless 100%. &ldquo;Mean&rdquo; is the average partial-credit score.</p>
+      <div class="btn-row" style="justify-content:flex-start;margin-top:28px">
+        <a class="btn btn-ghost" href="analysis.html">Read the analysis &rarr;</a>
+      </div>
     </div>
   </div>
 </section>
-
-<hr class="divider">
-
-<!-- ============ CASE STUDIES ============ -->
-<section id="cases">
-  <div class="wrap">
-    <div class="section-tag">Case Studies</div>
-    <h2 class="section-title">Where the reasoning breaks</h2>
-    <p class="section-intro">Three findings from the benchmark. The hooks are spoiler-free &mdash; but the analysis names the trick and the culprit, so it's tucked behind a warning. If you'd rather solve these yourself first, head to <a href="puzzles.html">the portal</a>.</p>
-
-    <div class="cases">
-
-      <!-- Case study 1: RPG JUMP -->
-      <article class="case">
-        <div class="case-sub">Example 1 &middot; Case 07 &middot; "RPG JUMP"</div>
-        <h3>Same clue, opposite reading</h3>
-        <p>Seven temples on a grid map. Every 50 minutes a teleport spell yanks every player to the <em>nearest other temple</em> &mdash; corpses included. The whole puzzle hinges on one quietly devastating question: <strong>what does &ldquo;nearest&rdquo; mean?</strong> Both models seized on the same calibration clue. Both then named the <em>same killer</em>. One had truly solved it; the other had reasoned beautifully over a map of which-temple-connects-to-which that was simply wrong.</p>
-        <details class="spoiler">
-          <summary>Reveal the analysis &mdash; spoils Case 07</summary>
-          <div class="spoiler-body">
-            <figure>
-              <img src="assets/img/rpg_jump_map.png" alt="RPG JUMP temple map">
-              <figcaption>The seven temples. The trick is buried in how you measure the distance between them.</figcaption>
-            </figure>
-            <p>The case hands you a calibration clue: from temple 106, the next jump is <em>equally likely</em> to land on 104, 105, or 107.</p>
-            <div class="quote-pair">
-              <div class="qbox opus">
-                <div class="who">Opus 4.8</div>
-                &ldquo;nearest temple = shortest door-to-door travel time = <strong>straight-line distance</strong>&hellip; matches Claire's hint &mdash; <strong>model verified correct.</strong>&rdquo;
-              </div>
-              <div class="qbox fable">
-                <div class="who">Fable 5</div>
-                &ldquo;If you compute door-to-door distance by <strong>four-directional (grid) movement</strong> &mdash; the classic RPG walk &mdash; 106&rarr;104 = west 2000 + south 1000 = 3000m&hellip;&rdquo;
-              </div>
-            </div>
-            <p>Opus read the world as <strong>Euclidean</strong> and literally annotated its own model &ldquo;verified correct.&rdquo; Fable read it as <strong>Manhattan</strong> distance &mdash; the actual trick the author buried (the puzzle is <em>named</em> RPG JUMP for a reason). Both then named the same killer. But Opus arrived there over a wrong connectivity map; Fable correctly worked out the one-way temple that can hide a killer and two victims with no witnesses.</p>
-            <div class="scoreline">
-              <span class="chip win">Fable 5 &nbsp;<b>16/18</b></span>
-              <span class="chip lose">Opus 4.8 &nbsp;<b>1/18</b></span>
-              <span class="chip muted" style="color:var(--muted)">Opus got a single charity point for naming the right culprit. Everything else was built on sand.</span>
-            </div>
-          </div>
-        </details>
-      </article>
-
-      <!-- Case study 2: Magic Door -->
-      <article class="case">
-        <div class="case-sub">Example 2 &middot; Case 04 &middot; "The Magic Door Murders"</div>
-        <h3>Right clue, wrong trick</h3>
-        <p>A sealed bunker has a door that shuts ~40 seconds too early each night. Both models caught the hardest leap &mdash; that the 40-second discrepancy means a time-zone difference. That's the threshold insight. From there, one reconstructed the real mechanism and fingered the right man; the other reached the same insight and then <em>improvised</em> a plausible-sounding structure that diverged from the truth.</p>
-        <details class="spoiler">
-          <summary>Reveal the analysis &mdash; spoils Case 04</summary>
-          <div class="spoiler-body">
-            <p>The real trick: the magic doors are <strong>paired across time zones</strong>, and a 40-second offset corresponds to ~18&nbsp;km along the equator &mdash; pointing to a hidden relay door and an &ldquo;in-between space&rdquo; the killer uses to escape the locked room.</p>
-            <ul class="clean">
-              <li><span class="mk">Fable 5</span><span><b>20/20.</b> Reconstructed the full hidden-relay trick, then used two constraints &mdash; who could hide in the bunker after 7pm, and who couldn't walk 18 km back in time &mdash; to correctly finger <strong>Bill</strong>.</span></li>
-              <li><span class="mk">Opus 4.8</span><span><b>8/20.</b> Took the same 40-second clue but invented a different mechanism (a fictional second secret door) and a different timeline, then accused the wrong man.</span></li>
-            </ul>
-            <p class="muted">The pattern repeats: Opus reaches the threshold insight, then narrates a confident structure around it. Fable does the grind &mdash; checking each constraint until one suspect survives.</p>
-          </div>
-        </details>
-      </article>
-
-      <!-- Case study 3: Ball drawing -->
-      <article class="case">
-        <div class="case-sub">Example 3 &middot; Case 08 &middot; "Not (Random) Ball-Drawing"</div>
-        <h3>A flawless proof of the wrong premise</h3>
-        <p>Lest this read as a Fable infomercial: here's the most instructive case of all, and one where Fable loses badly. A probability puzzle whose whole edifice rests on reading two <em>soft, observational</em> clues correctly &mdash; what a hand gesture means, and what a girl is wearing. Pick the wrong fork, and you can still build an airtight, self-consistent, computationally-verified universe&hellip; that happens to be false.</p>
-        <details class="spoiler">
-          <summary>Reveal the analysis &mdash; spoils Case 08</summary>
-          <div class="spoiler-body">
-            <p>Fable read the gesture as <strong>12</strong> (a class number on a jersey) and built a fully self-consistent 12/12/24 system &mdash; it even <em>wrote a program to brute-force-verify</em> that its system satisfied every stated constraint. The logic was airtight. The premise was wrong.</p>
-            <div class="scoreline">
-              <span class="chip lose">Fable 5 &nbsp;<b>5/19</b></span>
-              <span class="chip lose">Opus 4.8 &nbsp;<b>0/19</b></span>
-            </div>
-            <p class="muted" style="margin-top:16px">Look at the one sub-question that's <em>pure deduction with no soft-clue fork</em>: Fable scored a flawless 2/2, reasoning identical to the official solution. Then every downstream question collapsed &mdash; because each inherited the misread clue. This is the same failure that sank Opus on RPG JUMP, just wearing Fable's clothes: <strong>commit to a wrong premise, then reason flawlessly on top of it.</strong> And the clue that trips you is never a logic step &mdash; it's a piece of observational flavor text.</p>
-          </div>
-        </details>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- ============ METHOD ============ -->
-<section id="method">
-  <div class="wrap narrow prose">
-    <div class="section-tag">Method &amp; Caveats</div>
-    <h2 class="section-title">How it works</h2>
-    <p>Each of the 79 mysteries was solved by a fresh Claude Code agent inside its own isolated Docker container &mdash; read the case file and any diagrams, reason it out, write a full solution to disk. The grader is a two-phase <strong>LLM-as-judge</strong> built on Opus 4.8:</p>
-    <ul class="clean">
-      <li><span class="mk">1</span><span><b>Rubric extraction.</b> The judge reads the problem plus the official solution and emits a structured, partial-credit rubric. Where the official solution annotates points inline, the rubric preserves that exact structure and totals; otherwise it derives weighted criteria from the core deductions (trick / culprit / method / motive / key clues).</span></li>
-      <li><span class="mk">2</span><span><b>Grading.</b> The judge reads the problem, the official solution (treated as the sole authority), the rubric, and the submission, and awards partial credit per criterion with evidence and reasoning. A submission whose conclusion contradicts the official answer earns no credit for that point &mdash; <em>even if its reasoning looks plausible.</em></span></li>
-    </ul>
-
-    <h3>Why the gap &mdash; and why it isn't the whole story</h3>
-    <p>Three things are going on. <strong>(1)</strong> Fable does the grind; Opus improvises &mdash; on hard puzzles Opus tends to reach the pivotal insight, then narrate a confident structure that drifts from the mechanism. <strong>(2)</strong> The rubric rewards coverage, and Fable's solutions are simply longer and more exhaustive; Opus is concise and a coverage-based judge can't award points for reasoning left implicit. <strong>(3)</strong> The two models did <em>not</em> run under identical harness limits &mdash; Opus ran with a tighter request timeout and output cap; a few of its lowest scores could be truncation artifacts. And the judge is Opus 4.8 itself &mdash; which scored its own family <em>lower</em>, arguing against self-preference, but it's still one judge, so absolute numbers shouldn't be over-read.</p>
-
-    <div class="callout">
-      <p style="margin:0"><b>The takeaway.</b> In honkaku, you live or die by the fork you commit to &mdash; and the fork is usually a soft observational clue, not a logic step. An LLM judge that grades the <em>reasoning chain</em>, not just the verdict, can tell &ldquo;solved it&rdquo; apart from &ldquo;stumbled into the right name.&rdquo; Increasingly, that's the only kind of evaluation worth running.</p>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
 
 <!-- ============ CTA ============ -->
-<section>
-  <div class="wrap narrow" style="text-align:center">
-    <h2 class="section-title">Now it's your turn.</h2>
-    <p class="section-intro" style="margin:0 auto 28px">Eight cases. Every clue on the page. No answer key in sight. Read one, out-deduce the machine, and send us your reasoning &mdash; it goes straight to the benchmark authors.</p>
-    <div class="btn-row">
-      <a class="btn btn-primary" href="puzzles.html">Enter the portal &rarr;</a>
+<section class="snap-page">
+  <div class="wrap">
+    <div class="snap-card" style="text-align:center;max-width:680px">
+      <h2 class="section-title">Now it's your turn.</h2>
+      <p class="section-intro" style="margin:0 auto 28px">Eight cases. Every clue on the page. No answer key in sight. Read one, out-deduce the machine, and send us your reasoning &mdash; it goes straight to the benchmark authors.</p>
+      <div class="btn-row" style="justify-content:center">
+        <a class="btn btn-primary" href="puzzles.html">Enter the portal &rarr;</a>
+      </div>
     </div>
   </div>
 </section>
@@ -242,10 +118,44 @@
 </main>
 
 <footer><div class="wrap foot-grid">
-  <div>HONKAKU BENCH &middot; 79 honkaku mysteries vs. frontier LLMs &middot; graded by an LLM judge on the reasoning chain, not just the verdict.</div>
-  <div><a href="index.html">Home</a> &nbsp;&middot;&nbsp; <a href="puzzles.html">The Cases</a> &nbsp;&middot;&nbsp; <a href="mailto:honkakubench@gmail.com">honkakubench@gmail.com</a></div>
+  <div>HONKAKU BENCH &middot; 79 honkaku mysteries vs. five frontier AI models &middot; scored on the full reasoning chain, not just the verdict.</div>
+  <div><a href="index.html">Home</a> &nbsp;&middot;&nbsp; <a href="analysis.html">Analysis</a> &nbsp;&middot;&nbsp; <a href="puzzles.html">The Cases</a> &nbsp;&middot;&nbsp; <a href="mailto:honkakubench@gmail.com">honkakubench@gmail.com</a></div>
 </div></footer>
 
+<!-- ============ ENVELOPE INTRO OVERLAY ============ -->
+<div class="env-overlay" id="envOverlay">
+  <div class="env-inner">
+    <div class="env-box" id="envBox">
+      <div class="env-letter"></div>
+      <div class="env-body"></div>
+      <div class="env-flap"></div>
+      <div class="env-seal">&#9906;</div>
+    </div>
+    <p class="env-tagline">A case file awaits you.</p>
+    <p class="env-hint">Click to open</p>
+  </div>
+</div>
+
 <script src="assets/js/main.js"></script>
+<script>
+(function () {
+  var overlay = document.getElementById('envOverlay');
+  if (!overlay) return;
+  try { if (sessionStorage.getItem('hb-opened')) { overlay.style.display = 'none'; return; } } catch (e) {}
+  var box = document.getElementById('envBox');
+  function open() {
+    box.classList.add('opening');
+    setTimeout(function () {
+      overlay.classList.add('gone');
+      try { sessionStorage.setItem('hb-opened', '1'); } catch (e) {}
+    }, 720);
+  }
+  overlay.addEventListener('click', open);
+  document.addEventListener('keydown', function h() {
+    document.removeEventListener('keydown', h);
+    open();
+  });
+})();
+</script>
 </body>
 </html>

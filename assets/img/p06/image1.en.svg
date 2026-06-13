@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1140 660" font-family="Helvetica, Arial, sans-serif">
+  <rect width="1140" height="660" fill="#ffffff"/>
+  <defs>
+    <marker id="k" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#111"/>
+    </marker>
+  </defs>
+
+  <!-- island circle, divided into four quadrants -->
+  <circle cx="350" cy="330" r="240" fill="none" stroke="#111" stroke-width="5"/>
+  <line x1="350" y1="90" x2="350" y2="570" stroke="#111" stroke-width="4"/>
+  <line x1="110" y1="330" x2="590" y2="330" stroke="#111" stroke-width="4"/>
+
+  <text x="240" y="240" text-anchor="middle" font-size="30" fill="#111">Forest</text>
+  <text x="462" y="240" text-anchor="middle" font-size="30" fill="#111">Plain</text>
+  <text x="240" y="440" text-anchor="middle" font-size="30" fill="#111">Lake</text>
+  <text x="462" y="440" text-anchor="middle" font-size="30" fill="#111">City-State</text>
+
+  <!-- compass -->
+  <line x1="900" y1="430" x2="900" y2="150" stroke="#111" stroke-width="5" marker-end="url(#k)"/>
+  <line x1="790" y1="290" x2="1010" y2="290" stroke="#111" stroke-width="5" marker-end="url(#k)"/>
+  <text x="935" y="160" font-size="30" fill="#111">North</text>
+</svg>

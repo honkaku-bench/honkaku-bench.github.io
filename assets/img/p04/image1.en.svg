@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 300" font-family="Helvetica, Arial, sans-serif">
+  <rect width="860" height="300" fill="#ffffff"/>
+  <defs>
+    <marker id="red2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#d32020"/>
+    </marker>
+  </defs>
+
+  <!-- row labels -->
+  <text x="150" y="100" text-anchor="end" font-size="20" fill="#1a1a1a">The other door</text>
+  <text x="150" y="158" text-anchor="end" font-size="20" fill="#1a1a1a">Bunker</text>
+
+  <!-- bars -->
+  <rect x="180" y="88" width="470" height="12" fill="#3a6fc4"/>
+  <rect x="215" y="146" width="470" height="12" fill="#3a6fc4"/>
+
+  <!-- end times -->
+  <text x="180" y="74" text-anchor="middle" font-size="19" fill="#1a1a1a">7:59:20</text>
+  <text x="650" y="74" text-anchor="middle" font-size="19" fill="#1a1a1a">19:59:20</text>
+  <text x="215" y="184" text-anchor="middle" font-size="19" fill="#1a1a1a">8:00:00</text>
+  <text x="685" y="184" text-anchor="middle" font-size="19" fill="#1a1a1a">20:00:00</text>
+
+  <!-- overlap guide lines -->
+  <line x1="215" y1="100" x2="215" y2="146" stroke="#9aa6b8" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <line x1="650" y1="100" x2="650" y2="146" stroke="#9aa6b8" stroke-width="1.2" stroke-dasharray="4 4"/>
+
+  <!-- red double-headed arrow over the overlap -->
+  <line x1="217" y1="123" x2="648" y2="123" stroke="#d32020" stroke-width="2.5" marker-start="url(#red2)" marker-end="url(#red2)"/>
+
+  <!-- callout to the true working time -->
+  <line x1="432" y1="123" x2="432" y2="235" stroke="#1a1a1a" stroke-width="1.5"/>
+  <text x="432" y="258" text-anchor="middle" font-size="20" font-weight="600" fill="#1a1a1a">The true working time</text>
+</svg>
