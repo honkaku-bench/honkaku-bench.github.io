@@ -139,6 +139,8 @@
   }
 
   var mobileBarRef = null;
+  var desktopNavRef = null;
+  var puzzleTocRef = null;
 
   function refresh() {
     dossier.querySelectorAll(".lang-pane").forEach(function (pane) {
@@ -155,7 +157,9 @@
       nav.querySelector(".ch-prev").disabled = cur === 0;
       nav.querySelector(".ch-next").disabled = cur === total - 1;
     });
-    if (mobileBarRef) mobileBarRef.update();
+    if (mobileBarRef)   mobileBarRef.update();
+    if (desktopNavRef)  desktopNavRef.update();
+    if (puzzleTocRef)   puzzleTocRef.update();
   }
 
   /* ---- Mobile bottom chapter bar ---- */
@@ -248,9 +252,80 @@
     };
   }
 
+  /* ---- Desktop fixed bottom nav ---- */
+  function makeDesktopFixedNav() {
+    var nav = document.createElement("div");
+    nav.className = "puzzle-fixednav";
+    nav.innerHTML =
+      '<button class="pfn-btn pfn-prev">&#8592; Prev</button>' +
+      '<span class="pfn-label"></span>' +
+      '<button class="pfn-btn pfn-next">Next &#8594;</button>';
+    nav.querySelector(".pfn-prev").addEventListener("click", function () {
+      if (cur > 0) { cur--; refresh(); scrollUp(); }
+    });
+    nav.querySelector(".pfn-next").addEventListener("click", function () {
+      if (cur < total - 1) { cur++; refresh(); scrollUp(); }
+    });
+    document.body.appendChild(nav);
+    function update() {
+      var t = chapterTitle();
+      var lbl = cur === 0
+        ? "Case File  ·  1 of " + total
+        : "Part " + cur + " of " + (total - 1) + (t ? "  ·  " + t : "");
+      nav.querySelector(".pfn-label").textContent = lbl;
+      nav.querySelector(".pfn-prev").disabled = cur === 0;
+      nav.querySelector(".pfn-next").disabled = cur === total - 1;
+    }
+    return { update: update };
+  }
+
+  /* ---- Desktop left TOC ---- */
+  function makePuzzleToc() {
+    var toc = document.createElement("div");
+    toc.className = "puzzle-toc";
+    var inner = document.createElement("div");
+    inner.className = "puzzle-toc-inner";
+    var label = document.createElement("span");
+    label.className = "puzzle-toc-label";
+    label.textContent = "Contents";
+    inner.appendChild(label);
+    var list = document.createElement("div");
+    list.className = "puzzle-toc-list";
+    inner.appendChild(list);
+    toc.appendChild(inner);
+    document.body.appendChild(toc);
+
+    function update() {
+      list.innerHTML = "";
+      var p = dossier.querySelector(".lang-pane.active") || firstPane;
+      p.querySelectorAll(".chapter-sec").forEach(function (s, i) {
+        var h = s.querySelector("h2.puzzle-sec");
+        var itemLabel = i === 0 ? "Case File" : (h ? h.textContent.trim() : "Part " + i);
+        var a = document.createElement("a");
+        a.className = "puzzle-toc-item" + (i === cur ? " active" : "");
+        a.textContent = i === 0 ? itemLabel : (i + ". " + itemLabel);
+        a.setAttribute("role", "button");
+        a.setAttribute("tabindex", "0");
+        (function (idx) {
+          a.addEventListener("click", function () {
+            cur = idx; refresh(); scrollUp();
+          });
+        }(i));
+        list.appendChild(a);
+      });
+    }
+    return { update: update };
+  }
+
   onLangChange = refresh;
   refresh();
 
   mobileBarRef = makeMobileBar();
   mobileBarRef.update();
+
+  desktopNavRef = makeDesktopFixedNav();
+  desktopNavRef.update();
+
+  puzzleTocRef = makePuzzleToc();
+  puzzleTocRef.update();
 })();

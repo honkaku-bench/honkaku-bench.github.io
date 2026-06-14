@@ -197,7 +197,6 @@ def puzzles_index(metas):
     <div class="puzzle-grid">
 {cards}
     </div>
-    <p class="note" style="color:var(--faint);margin-top:30px;text-align:center">Only the first eight cases are public. The remaining seventy-one stay sealed.</p>
   </div>
 </section>
 </main>

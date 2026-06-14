@@ -99,7 +99,7 @@
     quickIn = quickIn < 0 ? 0 : quickIn > 1 ? 1 : quickIn;
     var fadeOut = z > Z_PEAK ? (Z_FAR - z) / (Z_FAR - Z_PEAK) : 1.0;
     fadeOut = fadeOut < 0 ? 0 : fadeOut > 1 ? 1 : fadeOut;
-    var alpha = 0.18 * quickIn * fadeOut;
+    var alpha = 0.85 * quickIn * fadeOut;
 
     var lw = 0.27;  // 0.2pt (1pt ≈ 1.333px)
 
