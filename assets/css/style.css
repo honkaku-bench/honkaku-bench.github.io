@@ -1014,6 +1014,16 @@ footer a:hover { color: var(--accent); }
   .nav-links { gap: 10px; }
   .nav-links a:not(.cta) { display: none; }
 
+  /* ---- Disable snap scrolling on mobile for smooth linear scroll ---- */
+  html.snap-layout {
+    scroll-snap-type: none;
+  }
+  html.snap-layout main { padding-top: 64px; }
+  .hero, .snap-page {
+    scroll-snap-align: unset;
+    scroll-snap-stop: unset;
+  }
+
   /* ---- Hero ---- */
   .hero { padding: 40px 0 32px; min-height: unset; }
   .hero .sub { font-size: .88rem; margin-bottom: 22px; }
