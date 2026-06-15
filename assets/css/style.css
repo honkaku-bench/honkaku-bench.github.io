@@ -277,6 +277,9 @@ table.board td.model { font-weight: 100; display: flex; align-items: center; gap
 .dot.gemini { background: #6c8ebf; }
 .big-num { font-family: var(--font-display); font-weight: 100; font-size: 1.15rem; }
 .win { color: var(--green); font-weight: 100; }
+table.board th.col-hero { color: var(--text); }
+table.board th.col-ref  { color: var(--faint); font-size: .72rem; }
+table.board td.ref       { color: var(--faint); font-size: .9rem; }
 
 /* score bar cell */
 .scorebar { display: flex; align-items: center; gap: 10px; min-width: 160px; }
@@ -1064,9 +1067,9 @@ footer a:hover { color: var(--accent); }
     font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
     color: var(--faint);
   }
-  table.board td:nth-child(2)::before { content: "Perfect"; }
-  table.board td:nth-child(3)::before { content: "Solved ≥90%"; }
-  table.board td:nth-child(4)::before { content: "Mean"; }
+  table.board td:nth-child(2)::before { content: "Perfect"; color: var(--text); }
+  table.board td:nth-child(3)::before { content: "Solved ≥90%"; color: var(--text); }
+  table.board td:nth-child(4)::before { content: "Mean (ref)"; }
 
   /* ---- Case studies ---- */
   .quote-pair { grid-template-columns: 1fr; }
