@@ -110,8 +110,8 @@ html:not(.snap-layout) main { padding-top: 64px; }
   color: var(--text); display: flex; align-items: center; gap: 10px; white-space: nowrap;
 }
 .brand .mag {
-  color: var(--accent); width: 1.15em; height: 1.15em;
-  fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round;
+  width: 1.6em; height: 1.6em;
+  object-fit: contain;
   flex-shrink: 0;
 }
 .brand b { color: var(--accent); font-weight: 100; }
