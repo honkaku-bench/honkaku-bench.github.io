@@ -63,18 +63,22 @@
   });
 
   // Prepend a case-file cover page as chapter 0 in every lang-pane
-  function buildCover() {
+  function buildCover(pane) {
     var head = document.querySelector(".case-head");
     var caseNo = head && head.querySelector(".case-no");
     var h1    = head && head.querySelector("h1");
     var zhEl  = head && head.querySelector(".zh");
     var diffEl = head && head.querySelector(".diff");
     var tagsEl = head && head.querySelector(".tags");
-    var teaserMeta = document.querySelector('meta[name="description"]');
+
+    var lang = pane ? pane.getAttribute("data-lang") : "en";
 
     var html = '<div class="cover-page">';
     if (caseNo) html += '<div class="cover-stamp">' + caseNo.textContent.trim() + '</div>';
-    if (h1)     html += '<h2 class="cover-title">' + h1.innerHTML + '</h2>';
+    if (h1) {
+      var zhTitle = lang === "zh" && h1.getAttribute("data-zh");
+      html += '<h2 class="cover-title">' + (zhTitle || h1.innerHTML) + '</h2>';
+    }
     if (zhEl && zhEl.textContent.trim())
                 html += '<p class="cover-subtitle">' + zhEl.textContent.trim() + '</p>';
     html += '<div class="cover-rule"></div>';
@@ -87,19 +91,27 @@
       badges += '<span class="cover-tag">' + t.textContent.trim() + '</span>';
     });
     if (badges) html += '<div class="cover-badges">' + badges + '</div>';
-    if (teaserMeta) {
-      var tTxt = teaserMeta.getAttribute("content");
-      if (tTxt) html += '<p class="cover-teaser">' + tTxt + '</p>';
+    // Use the first paragraph of the pane's first content section as a language-specific teaser.
+    // Fall back to the meta description if none is found.
+    var tTxt = "";
+    if (pane) {
+      var firstSec = pane.querySelector(".chapter-sec");
+      var firstPara = firstSec && firstSec.querySelector("p");
+      if (firstPara) tTxt = firstPara.textContent.trim();
     }
+    if (!tTxt) {
+      var teaserMeta = document.querySelector('meta[name="description"]');
+      if (teaserMeta) tTxt = teaserMeta.getAttribute("content");
+    }
+    if (tTxt) html += '<p class="cover-teaser">' + tTxt + '</p>';
     html += '</div>';
     return html;
   }
 
-  var coverHTML = buildCover();
   dossier.querySelectorAll(".lang-pane").forEach(function (pane) {
     var cover = document.createElement("div");
     cover.className = "chapter-sec case-cover";
-    cover.innerHTML = coverHTML;
+    cover.innerHTML = buildCover(pane);
     pane.insertBefore(cover, pane.firstChild);
   });
 
